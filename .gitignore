@@ -2,3 +2,7 @@ terraform.tfstate.*
 terraform.tfstate
 .terraform*
 template.code-workspace
+terraform.tfvars
+*.pub
+mykey*
+aws_infrastructure/
