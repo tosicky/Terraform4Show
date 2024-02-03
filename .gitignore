@@ -5,4 +5,5 @@ template.code-workspace
 terraform.tfvars
 *.pub
 mykey*
+.DS_Store
 aws_infrastructure/
