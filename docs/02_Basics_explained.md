@@ -15,6 +15,11 @@ terraform {
 }
 ```
 
+`*source*` - the global source address for the provider you intend to use, e.g. hashicorp/aws.
+
+`*version*` - a version constraint specifying which subset of available provider versions.
+
+
 For further reading: https://developer.hashicorp.com/terraform/language/providers/requirements
 
 ### Variable 
@@ -116,9 +121,9 @@ data "aws_ami" "example" {
 
 For further reading: https://developer.hashicorp.com/terraform/language/data-sources
 
-### Module 
+### Modules 
 
-Modules are containers for multiple resources that are used together. A module consists of a collection of .tf and/or .tf.json files kept together in a directory. 
+Modules are containers for multiple resources that are used together. A module consists of a collection of .tf and/or .tf.json files kept together in a directory. It is a group of related Terraform configuration files in a single directory.
 
 Every Terraform configuration has at least one module, known as its root module, which consists of the resources defined in the .tf files in the main working directory.
 
@@ -150,3 +155,36 @@ For further reading:
 https://developer.hashicorp.com/terraform/language/settings/backends/configuration
 
 https://developer.hashicorp.com/terraform/language/settings/backends/s3
+
+
+## Differences between provider and required_providers
+
+Simply put, `providers` are those plugins (aws, gcp, etc.) we want to use and `required_providers` defines the specific version of the providers we will be using.
+
+For example,
+
+```
+provider "aws" {
+  region  = "us-east-1"
+}
+
+provider "datadog" {
+  region = "us-east-1"
+}
+```
+
+```
+terraform {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 5.34.0"
+    }
+
+    datadog = {
+      source = "DataDog/datadog"
+      version = "~> 1.0"
+    }
+  }
+}
+```
