@@ -53,14 +53,6 @@ variable "path_to_private_key" {
   
 }
 
-variable "aws_access_key" {
-  
-}
-
-variable "aws_secret_key" {
-  
-}
-
 variable "region" {
   
 }
