@@ -2,8 +2,10 @@ name: Terraform Plan
 
 on:
   pull_request:
-    paths:
-      - "terraform/**"
+    types:
+      - opened
+    branches:
+      - '*'
 
 permissions:
   id-token: write      # for OIDC
@@ -24,18 +26,20 @@ jobs:
         with:
           client-id: ${{ secrets.AZURE_CLIENT_ID }}   # or use federated credential without stored secret
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          client-secret: ${{ secrets.AZURE_CLIENT_SECRET }}
           allow-no-subscriptions: true
 
       - name: Terraform Init
-        run: terraform -chdir=terraform init -input=false
+        run: terraform -chdir=azure-cloud-sec-101 init -input=false
 
       - name: Terraform Validate
-        run: terraform -chdir=terraform validate
+        run: terraform -chdir=azure-cloud-sec-101 validate
 
       - name: Security scan (tfsec)
-        uses: aquasecurity/tfsec-action@v1
+        uses: aquasecurity/tfsec-action@v1.0.3
         with:
           output: 'tfsec.json'
 
       - name: Terraform Plan
-        run: terraform -chdir=terraform plan -out=tfplan
+        run: terraform -chdir=azure-cloud-sec-101 plan -out=tfplan
