@@ -1,14 +1,11 @@
 name: Terraform Plan
 
 on:
-  # pull_request:
-  #   paths:
-  #     - "terraform/**"
   pull_request_target:
     types:
       - opened
     branches:
-      - 'main'
+      - '*'
 
 permissions:
   id-token: write      # for OIDC
@@ -31,11 +28,11 @@ jobs:
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           allow-no-subscriptions: true
 
-      - name: Terraform Initialization
-        run: terraform -chdir=terraform init -input=false
+      - name: Terraform Init
+        run: terraform -chdir=azure-cloud-sec-101 init -input=false
 
       - name: Terraform Validate
-        run: terraform -chdir=terraform validate
+        run: terraform -chdir=azure-cloud-sec-101 validate
 
       - name: Security scan (tfsec)
         uses: aquasecurity/tfsec-action@v1.0.3
@@ -43,4 +40,4 @@ jobs:
           output: 'tfsec.json'
 
       - name: Terraform Plan
-        run: terraform -chdir=terraform plan -out=tfplan
+        run: terraform -chdir=azure-cloud-sec-101 plan -out=tfplan
