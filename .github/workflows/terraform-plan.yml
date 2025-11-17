@@ -1,9 +1,14 @@
 name: Terraform Plan
 
 on:
-  pull_request:
-    paths:
-      - "terraform/**"
+  # pull_request:
+  #   paths:
+  #     - "terraform/**"
+  pull_request_target:
+    types:
+      - opened
+    branches:
+      - 'main/**'
 
 permissions:
   id-token: write      # for OIDC
