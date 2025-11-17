@@ -7,8 +7,8 @@ on:
   pull_request:
     types:
       - opened
-    # branches:
-    #   - 'main'
+    branches:
+      - '*'
 
 permissions:
   id-token: write      # for OIDC
