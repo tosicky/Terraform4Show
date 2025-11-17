@@ -31,14 +31,14 @@ jobs:
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           allow-no-subscriptions: true
 
-      - name: Terraform Init
+      - name: Terraform Initialization
         run: terraform -chdir=terraform init -input=false
 
       - name: Terraform Validate
         run: terraform -chdir=terraform validate
 
       - name: Security scan (tfsec)
-        uses: aquasecurity/tfsec-action@v1
+        uses: aquasecurity/tfsec-action@v1.0.3
         with:
           output: 'tfsec.json'
 
