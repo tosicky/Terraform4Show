@@ -1,0 +1,41 @@
+name: Terraform Plan
+
+on:
+  pull_request:
+    paths:
+      - "terraform/**"
+
+permissions:
+  id-token: write      # for OIDC
+  contents: read
+
+jobs:
+  terraform:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v2
+
+      - name: Login to Azure using OIDC
+        uses: azure/login@v1
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}   # or use federated credential without stored secret
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          allow-no-subscriptions: true
+
+      - name: Terraform Init
+        run: terraform -chdir=terraform init -input=false
+
+      - name: Terraform Validate
+        run: terraform -chdir=terraform validate
+
+      - name: Security scan (tfsec)
+        uses: aquasecurity/tfsec-action@v1
+        with:
+          output: 'tfsec.json'
+
+      - name: Terraform Plan
+        run: terraform -chdir=terraform plan -out=tfplan
