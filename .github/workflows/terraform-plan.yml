@@ -1,7 +1,7 @@
 name: Terraform Plan
 
 on:
-  pull_request_target:
+  pull_request:
     types:
       - opened
     branches:
@@ -26,6 +26,8 @@ jobs:
         with:
           client-id: ${{ secrets.AZURE_CLIENT_ID }}   # or use federated credential without stored secret
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          client-secret: ${{ secrets.AZURE_CLIENT_SECRET }}
           allow-no-subscriptions: true
 
       - name: Terraform Init

@@ -34,7 +34,7 @@ resource "azurerm_user_assigned_identity" "app_mi" {
 
 resource "azurerm_role_assignment" "kv_get" {
   scope                = azurerm_key_vault.app_kv.id
-  role_definition_name = "Key Vault Secrets User"   # least privilege
+  role_definition_name = "Key Vault Secrets User"   # least privilege role
   principal_id         = azurerm_user_assigned_identity.app_mi.principal_id
 }
 
