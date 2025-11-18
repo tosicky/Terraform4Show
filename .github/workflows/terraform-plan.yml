@@ -37,7 +37,7 @@ jobs:
       - name: Security scan (tfsec)
         uses: aquasecurity/tfsec-action@v1.0.3
         with:
-          output: 'tfsec.json'
+          working_directory: 'azure-cloud-sec-101'
 
       - name: Terraform Plan
         run: terraform -chdir=azure-cloud-sec-101 plan -out=tfplan
