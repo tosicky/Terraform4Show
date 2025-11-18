@@ -40,4 +40,4 @@ jobs:
           working_directory: 'azure-cloud-sec-101'
 
       - name: Terraform Plan
-        run: terraform -chdir=azure-cloud-sec-101 plan -out=tfplan
+        run: terraform -chdir=azure-cloud-sec-101 plan -out=tfplan --var="subscription_id=${{ secrets.AZURE_SUBSCRIPTION_ID }}"
